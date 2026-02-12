@@ -130,6 +130,7 @@ function moveSnake() {
         // Snake eats the food: increase score and generate new food
         score += 1;
         createFood();
+        drawScore();
         // Do not remove the tail, so the snake grows
     } else {
         // Snake did not eat food: remove the last segment to keep length the same
@@ -137,11 +138,58 @@ function moveSnake() {
     }
 }
 
-function checkGameOver() { }
+function checkGameOver() { 
+    if (isOutOfBoard() || isSelfcollision()){
+        isRunning = false;
+    }
+}
 
-function resetGame() { }
+function isOutOfBoard(){
+    const head = snake[0];
+    if (head.x < 0 || head.x >= gameWidth || head.y < 0 || head.y >= gameHeight){
+        return true;
+    }
+    return false;
+}
 
-function displayGameOver() { }
+function isSelfcollision(){
+    const head = snake[0];
+    for (let i = 1; i < snake.length; i++){
+        if (head.x === snake[i].x && head.y === snake[i].y){
+            return true;
+        }
+    }
+    return false;
+}
+
+function resetGame() { 
+    score = 0;
+    xVelocity = initSize;
+    yVelocity = 0;
+    snake = [
+        { x: initSize * 4, y: 40},
+        { x: initSize * 3, y: 40},
+        { x: initSize * 2, y: 40},
+        { x: initSize , y: 40},
+        { x: 0, y:40}
+    ];
+    gameStart();
+
+}
+
+function displayGameOver() { 
+    context.font = "50px sans-serif";
+    context.fillStyle = "red";
+    context.textAlign = "center";
+    context.fillText("Game Over!", gameWidth / 2, gameHeight / 2);
+}
+
+function drawScore(){
+    context.font = "20px sans-serif";
+    context.fillStyle = "white";
+    context.textAlign = "left";
+    context.fillText("Score:" + score,10 , 20);
+}
 
 
 // Step - by - step explanation
