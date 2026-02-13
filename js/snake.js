@@ -195,7 +195,6 @@ function drawScore(){
 // Step - by - step explanation
 // The changeDirection function is an event handler that listens for keydown events. When a key is pressed, it checks which arrow key was pressed and updates the snake's velocity accordingly, while also ensuring that the snake cannot reverse direction directly (e.g., if it's moving right, it cannot immediately move left). This is done by checking the current velocity and preventing changes that would cause the snake to move in the opposite direction of its current movement. For example, if the snake is currently moving right (positive xVelocity), pressing the left arrow key will not change the direction to left (negative xVelocity) because it would cause an immediate collision with itself.
 function changeDirection(event) {
-    console.log(`Key pressed: ${event.keyCode}`);
     const keyPressed = event.keyCode;
     const LEFT_KEY = 37;
     const UP_KEY = 38;
