@@ -26,7 +26,7 @@
 - Randomly place food on canvas
 - Detect collision with snake head
 
-## 6. Collision Detection - Pending
+## 6. Collision Detection - Done
 
 - Detect collision with walls and self
 - End game on collision
@@ -35,12 +35,12 @@
 
 - Listen for arrow key events to change direction
 
-## 8. Scoring & UI - Pending
+## 8. Scoring & UI - Done
 
 - Track and display score
 - Show game over message
 
-## 9. Polish & Testing - Pending
+## 9. Polish & Testing - Done
 
 - Add restart functionality
 - Test for bugs and edge cases
