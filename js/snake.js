@@ -1,4 +1,3 @@
-
 const gameBoard = document.getElementById("gameCanvas");
 
 let context = gameBoard.getContext("2d");
@@ -26,7 +25,7 @@ let isRunning = false; // Flag to check if the game is running
 
 let foodX; // X-coordinate of the food
 let foodY; // Y-coordinate of the food
-const gameSpeed = 300; // Initial speed of the game in milliseconds
+let gameSpeed = 300; // Initial speed of the game in milliseconds
 
 /**
  Sa e kote koulev lan ki gen 5 segman, kò a kòmanse nan pozisyon (0, 40) epi gen de segman ki swiv li. Chak segman reprezante yon pati nan kò a, ak premye segman an se tèt la.
@@ -60,6 +59,7 @@ function nextTick() {
         setTimeout(() => {
             clearBoard();
             drawFood();
+            drawScore();
 
             drawSnake();
             moveSnake();
@@ -131,6 +131,11 @@ function moveSnake() {
         score += 1;
         createFood();
         drawScore();
+
+        // Augmenter le vitesse apres 3 pièce de manger 
+        if (score % 3 === 0 && gameSpeed > 50) {
+            gameSpeed -= 20; 
+        }
         // Do not remove the tail, so the snake grows
     } else {
         // Snake did not eat food: remove the last segment to keep length the same
@@ -181,16 +186,36 @@ function displayGameOver() {
     context.font = "50px sans-serif";
     context.fillStyle = "red";
     context.textAlign = "center";
-    context.fillText("Game Over!", gameWidth / 2, gameHeight / 2);
+    context.fillText("Game Over!", gameWidth / 2, gameHeight / 2);  
+
+    const playAgainButton = document.createElement("button");
+    playAgainButton.innerText = "Play Again";
+    playAgainButton.style.position = "absolute";
+    playAgainButton.style.top = `${gameBoard.offsetTop + gameHeight + 20}px`;
+    playAgainButton.style.left = `${gameBoard.offsetLeft + gameWidth / 2}px`;
+    playAgainButton.style.transform = "translate(-50%, 0)";
+    playAgainButton.style.padding = "10px 20px";
+    playAgainButton.style.fontSize = "16px";
+
+    document.body.appendChild(playAgainButton);
+
+    playAgainButton.addEventListener("click", () => {
+        document.body.removeChild(playAgainButton);
+        resetGame();
+    });
 }
 
-function drawScore(){
+function drawScore() {
+    // Clear only the score area
+    context.fillStyle = boardBackgroundColor;
+    context.fillRect(0, 0, gameWidth, 30); // Adjust height to cover the score area
+
+    // Draw the score
     context.font = "20px sans-serif";
     context.fillStyle = "white";
     context.textAlign = "left";
-    context.fillText("Score:" + score,10 , 20);
+    context.fillText("Score: " + score, 10, 20);
 }
-
 
 // Step - by - step explanation
 // The changeDirection function is an event handler that listens for keydown events. When a key is pressed, it checks which arrow key was pressed and updates the snake's velocity accordingly, while also ensuring that the snake cannot reverse direction directly (e.g., if it's moving right, it cannot immediately move left). This is done by checking the current velocity and preventing changes that would cause the snake to move in the opposite direction of its current movement. For example, if the snake is currently moving right (positive xVelocity), pressing the left arrow key will not change the direction to left (negative xVelocity) because it would cause an immediate collision with itself.
