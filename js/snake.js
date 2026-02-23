@@ -43,7 +43,7 @@ let snake = [
 */
 window.addEventListener("keydown", changeDirection);
 
-window.addEventListener("click", resetGame); // KOLO 
+// window.addEventListener("click", resetGame); // KOLO 
 
 function gameStart() {
     isRunning = true;
